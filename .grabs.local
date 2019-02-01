@@ -6,4 +6,10 @@ cd ~/Downloads
 # List any other links to downloads here, 
 # i.e. S3, Office, Universal Type Clent, etc.
 ################################################# 
+wget https://sheatsb.s3.amazonaws.com/apps/Font%20Library.rightfontlibrary.zip?AWSAccessKeyId=AKIAJEBPVFVULR2UETXA&Expires=1549665394&Signature=rXKvCeoyq1Chabyji%2BNGVV3v%2Bck%3D
+wget https://sheatsb.s3.amazonaws.com/apps/Office.2019.16.19.macOS.zip?AWSAccessKeyId=AKIAJEBPVFVULR2UETXA&Expires=1549665394&Signature=Klbf%2BnQS7awLPsr7XKiTKfD0WR0%3D
+wget https://sheatsb.s3.amazonaws.com/apps/RightFont_5_5.2.4__2208___TNT_.dmg?AWSAccessKeyId=AKIAJEBPVFVULR2UETXA&Expires=1549665394&Signature=2b4nFaty8hmxiNDsgwb1meGsG%2FQ%3D
+wget https://sheatsb.s3.amazonaws.com/apps/Sketch_52.6__TNT.rar?AWSAccessKeyId=AKIAJEBPVFVULR2UETXA&Expires=1549665458&Signature=X%2F3x%2FiYurPii86wEFLSBbiqxfcc%3D
+wget https://sheatsb.s3.amazonaws.com/apps/Sublime%20Text%203%20Key.zip?AWSAccessKeyId=AKIAJEBPVFVULR2UETXA&Expires=1549665458&Signature=cChXMR1lIKtQ7pnD8167mko7rxY%3D
+wget https://sheatsb.s3.amazonaws.com/apps/Transmit_5.2.1__TNT_.dmg?AWSAccessKeyId=AKIAJEBPVFVULR2UETXA&Expires=1549665489&Signature=cE8lW4%2F%2FtSF5ZMYbSYB9Ftc%2BS7M%3D
 cd ~/
