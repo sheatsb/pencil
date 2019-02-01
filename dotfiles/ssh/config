@@ -1,0 +1,15 @@
+Host *
+	ServerAliveInterval 60
+
+Host dotorgold
+	HostName old-dotorg.eastus2.cloudapp.azure.com
+	User sheatsb
+
+Host dotorgdb
+	HostName dotorg-mysql.eastus.cloudapp.azure.com
+	User sheatsb
+
+Host dotorg
+	HostName dotorg-web.eastus.cloudapp.azure.com
+	User sheatsb
+

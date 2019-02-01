@@ -1,0 +1,9 @@
+#!/bin/sh
+
+fancy_echo "Download apps from the S3 repo"
+cd ~/Downloads
+#################################################
+# List any other links to downloads here, 
+# i.e. S3, Office, Universal Type Clent, etc.
+################################################# 
+cd ~/

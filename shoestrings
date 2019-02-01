@@ -1,0 +1,68 @@
+#!/bin/sh
+
+# -------------------------------------------------------------------------
+# This installs packages, apps, etc that are essential. 
+# Adapt to your taste.
+# -------------------------------------------------------------------------
+fancy_echo "Moving on to the apps, gems, and pips..."
+
+fancy_echo "Cleaning up old Homebrew content ..."
+brew cleanup 2> /dev/null
+brew cask cleanup 2> /dev/null
+
+# -------------------------------------------------------------------------
+# Apps
+# -------------------------------------------------------------------------
+fancy_echo "Install Mac App Store apps"
+brew install mas
+brew bundle --file=stuffs/mas.txt
+
+# -------------------------------------------------------------------------
+# Gems
+# -------------------------------------------------------------------------
+fancy_echo "Installing gems"
+gem update --system
+bundle install --system --gemfile=stuffs/Gemfile
+rbenv rehash
+
+# -------------------------------------------------------------------------
+# Fonts
+# -------------------------------------------------------------------------
+fancy_echo "Get the old fonts, install to ~/library/fonts"
+
+mkdir ~/Library/Fonts
+cp -a /stuffs/fonts/. ~/Library/Fonts/
+
+# -------------------------------------------------------------------------
+# NPM
+# -------------------------------------------------------------------------
+fancy_echo "Updating NPM and install packages"
+npm i -g npm
+npm -g install eslint browser-sync fast-cli grunt gulp gulp-scss-lint javascripting jshint n parcel-bundler webpack tachyons-cli postcss-cli speed-test splash-cli stacks-cli switch-php npm yo
+
+fancy_echo "Installing Python packages"
+sudo easy_install pip
+pip install -r stuffs/thepips.txt
+
+# -------------------------------------------------------------------------
+# Set up local PHP dev environment
+# -------------------------------------------------------------------------
+fancy_echo "Set up Valet Plus"
+mkdir ~/code
+composer self-update
+composer global require weprovide/valet-plus
+valet fix 
+valet install
+wp package install git@github.com:aaemnnosttv/wp-cli-valet-command.git
+cd ~/code
+valet park
+valet domain taco
+brew services restart --all
+
+if [ -f ".grabs.local" ]; then
+  fancy_echo "Download apps from S3 *now*, these are time limited by default"
+  # shellcheck disable=SC1090
+  . "./grabs.local"
+fi
+
+fancy_echo "All apps installed!"

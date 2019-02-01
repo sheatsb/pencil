@@ -1,0 +1,328 @@
+#!/bin/sh
+
+##############################################################################
+## Run this one first. It bootstraps the system with the basics for everythign else,
+## including prezto, basic homebrew packages, command line tools, dotfiles, etc.
+##############################################################################
+
+
+# -------------------------------------------------------------------------
+# Functions
+# -------------------------------------------------------------------------
+
+fancy_echo() {
+  local fmt="$1"; shift
+
+  # shellcheck disable=SC2059
+  printf "\n$fmt\n" "$@"
+}
+
+ask_for_sudo() {
+
+    # Ask for the administrator password upfront.
+
+    sudo -v &> /dev/null
+
+    # Update existing `sudo` time stamp
+    # until this script has finished.
+    #
+    # https://gist.github.com/cowboy/3118588
+
+    # Keep-alive: update existing `sudo` time stamp until script has finished
+    while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+    fancy_echo "Password cached"
+
+}
+
+append_to_zshrc() {
+  local text="$1" zshrc
+  local skip_new_line="${2:-0}"
+
+  if [ -w "$HOME/.zshrc.local" ]; then
+    zshrc="$HOME/.zshrc.local"
+  else
+    zshrc="$HOME/.zshrc"
+  fi
+
+  if ! grep -Fqs "$text" "$zshrc"; then
+    if [ "$skip_new_line" -eq 1 ]; then
+      printf "%s\\n" "$text" >> "$zshrc"
+    else
+      printf "\\n%s\\n" "$text" >> "$zshrc"
+    fi
+  fi
+}
+
+# shellcheck disable=SC2154
+trap 'ret=$?; test $ret -ne 0 && printf "failed\n\n" >&2; exit $ret' EXIT
+
+set -e
+
+if [ ! -d "$HOME/.bin/" ]; then
+  mkdir "$HOME/.bin"
+fi
+
+if [ ! -f "$HOME/.zshrc" ]; then
+  touch "$HOME/.zshrc"
+fi
+
+# shellcheck disable=SC2016
+append_to_zshrc 'export PATH="$HOME/.bin:$PATH"'
+
+HOMEBREW_PREFIX="/usr/local"
+
+if [ -d "$HOMEBREW_PREFIX" ]; then
+  if ! [ -r "$HOMEBREW_PREFIX" ]; then
+    sudo chown -R "$LOGNAME:admin" /usr/local
+  fi
+else
+  sudo mkdir "$HOMEBREW_PREFIX"
+  sudo chflags norestricted "$HOMEBREW_PREFIX"
+  sudo chown -R "$LOGNAME:admin" "$HOMEBREW_PREFIX"
+fi
+
+update_shell() {
+  local shell_path;
+  shell_path="$(command -v zsh)"
+
+  fancy_echo "Changing your shell to zsh ..."
+  if ! grep "$shell_path" /etc/shells > /dev/null 2>&1 ; then
+    fancy_echo "Adding '$shell_path' to /etc/shells"
+    sudo sh -c "echo $shell_path >> /etc/shells"
+  fi
+  sudo chsh -s "$shell_path" "$USER"
+}
+
+gem_install_or_update() {
+  if gem list "$1" --installed > /dev/null; then
+    gem update "$@"
+  else
+    gem install "$@"
+  fi
+}
+
+# -------------------------------------------------------------------------
+# Ensure notices on ANY failure
+# -------------------------------------------------------------------------
+
+# shellcheck disable=SC2154
+trap 'ret=$?; test $ret -ne 0 && printf "failed\n\n" >&2; exit $ret' EXIT
+
+set -e
+
+# -------------------------------------------------------------------------
+# It's just (just) a little touch (touch)
+# -------------------------------------------------------------------------
+if [ ! -d "$HOME/.bin/" ]; then
+  mkdir "$HOME/.bin"
+fi
+
+if [ ! -f "$HOME/.zshrc" ]; then
+  touch "$HOME/.zshrc"
+fi
+
+# shellcheck disable=SC2016
+append_to_zshrc 'export PATH="$HOME/.bin:$PATH"'
+
+# -------------------------------------------------------------------------
+# Aso for the *password* now
+# -------------------------------------------------------------------------
+
+ask_for_sudo
+
+# ------------------------------------------------------------------------------------
+# Install Command Line Tools with special detail for Mojave
+# ------------------------------------------------------------------------------------
+
+if type xcode-select >&- && xpath=$( xcode-select --print-path ) &&
+	test -d "${xpath}" && test -x "${xpath}" ; then
+	fancy_echo "Xcode already installed. Skipping."
+else
+	fancy_echo "Installing Xcode…"
+	xcode-select --install
+	fancy_echo "Command Line Tools installed!"
+fi
+
+sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
+
+# -------------------------------------------------------------------------
+# Homebrew
+# -------------------------------------------------------------------------
+
+if ! command -v brew >/dev/null; then
+  fancy_echo "Installing Homebrew ..."
+    curl -fsS \
+      'https://raw.githubusercontent.com/Homebrew/install/master/install' | ruby
+
+    append_to_zshrc '# recommended by brew doctor'
+
+    # shellcheck disable=SC2016
+    append_to_zshrc 'export PATH="/usr/local/bin:$PATH"' 1
+
+    export PATH="/usr/local/bin:$PATH"
+fi
+
+if brew list | grep -Fq brew-cask; then
+  fancy_echo "Uninstalling old Homebrew-Cask ..."
+  brew uninstall --force brew-cask
+fi
+
+fancy_echo "Updating Homebrew formulae ..."
+brew update --force # https://github.com/Homebrew/brew/issues/1151
+brew bundle --file=- <<EOF
+tap "thoughtbot/formulae"
+tap "homebrew/services"
+tap "universal-ctags/universal-ctags"
+tap "caskroom/cask"
+# Unix
+brew "bash"
+brew "universal-ctags", args: ["HEAD"]
+brew "git"
+brew "openssl"
+brew "python3"
+brew "reattach-to-user-namespace"
+brew "the_silver_searcher"
+brew "tmux"
+brew "vim"
+brew "watchman"
+brew "zsh"
+# GitHub
+brew "hub"
+# Image manipulation
+brew "imagemagick"
+# Programming language prerequisites and package managers
+brew "libyaml" # should come after openssl
+brew "coreutils"
+brew "yarn"
+cask "gpg-suite"
+# Databases
+brew "postgres", restart_service: :changed
+brew "redis", restart_service: :changed
+EOF
+
+# -------------------------------------------------------------------------
+# Python, but we don't really need this step.
+# -------------------------------------------------------------------------
+
+fancy_echo 'Checking on Python installation...'
+
+if ! brew_is_installed "python3"; then
+  brew bundle --file=- <<EOF
+  brew 'pyenv'
+  brew 'pyenv-virtualenv'
+  brew 'pyenv-virtualenvwrapper'
+EOF
+  # shellcheck disable=SC2016
+  append_to_zshrc 'if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi'
+  # shellcheck disable=SC2016
+  append_to_zshrc 'if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi'
+
+  # pyenv currently doesn't have a convenience version to use, e.g., "latest",
+  # so we check for the latest version against Homebrew instead.
+  latest_python_3="$(brew info python3 | egrep -o "3\.\d+\.\d+" | head -1)"
+
+  if ! pyenv versions | ag "$latest_python_3" > /dev/null; then
+    pyenv install "$latest_python_3"
+    pyenv global "$latest_python_3"
+    pyenv rehash
+  fi
+else
+  brew bundle --file=- <<EOF
+  brew 'python3'
+EOF
+fi
+
+
+if ! brew_is_installed "pyenv-virtualenvwrapper"; then
+  if ! pip3 list | ag "virtualenvwrapper" > /dev/null; then
+    fancy_echo 'Installing virtualenvwrapper...'
+    pip3 install virtualenvwrapper
+    append_to_zshrc 'export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3'
+    append_to_zshrc 'export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv'
+    append_to_zshrc 'source /usr/local/bin/virtualenvwrapper.sh'
+  fi
+fi
+
+fancy_echo '...Finished Python installation checks.'
+
+# -------------------------------------------------------------------------
+# Ruby: Install the latest
+# -------------------------------------------------------------------------
+
+fancy_echo "Configuring Ruby ..."
+find_latest_ruby() {
+  rbenv install -l | grep -v - | tail -1 | sed -e 's/^ *//'
+}
+
+ruby_version="$(find_latest_ruby)"
+# shellcheck disable=SC2016
+append_to_zshrc 'eval "$(rbenv init - --no-rehash)"' 1
+eval "$(rbenv init -)"
+
+if ! rbenv versions | grep -Fq "$ruby_version"; then
+  RUBY_CONFIGURE_OPTS=--with-openssl-dir=/usr/local/opt/openssl rbenv install -s "$ruby_version"
+fi
+
+rbenv global "$ruby_version"
+rbenv shell "$ruby_version"
+gem update --system
+gem_install_or_update 'bundler'
+number_of_cores=$(sysctl -n hw.ncpu)
+bundle config --global jobs $((number_of_cores - 1))
+
+
+# -----------------------------------------------------------------------------
+# NVM
+# -----------------------------------------------------------------------------
+if [ -x nvm ]; then
+	fancy_echo "Installing NVM…"
+	curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+	fancy_echo "NVM installed!"
+	fancy_echo "Installing latest Node…"
+	nvm install node
+	nvm use node
+	nvm run node --version
+	nodev=$(node -v)
+	fancy_echo "Using Node $nodev!"
+else
+	print_success_muted "NVM/Node already installed. Skipping."
+fi
+
+# -------------------------------------------------------------------------
+# ZSH and Dotfiles
+# -------------------------------------------------------------------------
+fancy_echo "First switch to homebrew ZSH"
+case "$SHELL" in
+  */zsh)
+    if [ "$(command -v zsh)" != '/usr/local/bin/zsh' ] ; then
+      update_shell
+    fi
+    ;;
+  *)
+    update_shell
+    ;;
+esac
+
+fancy_echo "Backup .zshrc"
+  mv ~/.zshrc  ~/.zshrc.backup
+
+fancy_echo "Install Prezto"
+git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
+
+fancy_echo "Copying dotfiles"
+pushd "${PWD}/dotfiles" >&-
+  for dotfile in *
+  do
+    ln -nsf "${PWD}/${dotfile}" "${HOME}/.${dotfile}"
+  done
+popd >&-
+
+
+if [ -f "shoestrings" ]; then
+  fancy_echo "Running your customizations from graphite ..."
+  # shellcheck disable=SC1090
+  . "./shoestrings"
+fi
+
+fancy_echo "Look, do what you want, because I'm done."

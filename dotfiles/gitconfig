@@ -1,0 +1,26 @@
+[user]
+	name = b sheats
+	email = git@sheatsb.com
+	signingkey = 9D21816848E86449
+[github]
+	user = sheatsb
+	token = fec8e2bdb7c1217677d218f950d53ea354e6b365
+[core]
+	editor = code --wait
+[color]
+	ui = true
+[push]
+	default = simple
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+[diff]
+    tool = default-difftool
+[difftool "default-difftool"]
+    cmd = code --wait --diff $LOCAL $REMOTE
+[merge]
+    tool = vscode
+[mergetool "vscode"]
+    cmd = code --wait $MERGED
