@@ -30,7 +30,6 @@ brew "cmake"
 brew "colordiff"
 brew "composer"
 brew "coreutils"
-brew "ctags"
 brew "curl"
 brew "libevent"
 brew "libgpg-error"
@@ -56,12 +55,10 @@ brew "unixodbc"
 brew "freetds"
 brew "jpeg"
 brew "webp"
-brew "geoip"
 brew "gibo"
 brew "gist"
 brew "git"
 brew "git-flow"
-brew "libusb"
 brew "pinentry"
 brew "gnupg"
 brew "git-secret"
@@ -70,7 +67,6 @@ brew "go"
 brew "gpg-agent"
 brew "gradle"
 brew "grep"
-brew "heroku"
 brew "hstr"
 brew "htop"
 brew "hub"
@@ -92,7 +88,6 @@ brew "mysql", restart_service: true
 brew "mas"
 brew "maven"
 brew "mcrypt"
-brew "python@2"
 brew "mysql-utilities"
 brew "namebench"
 brew "nginx", restart_service: true
@@ -169,3 +164,16 @@ cask "transmission"
 cask "tower"
 cask "vanilla"
 cask "visual-studio-code"
+mas "Encrypto", id: 935235287
+mas "Harvest", id: 506189836
+mas "Keynote", id: 409183694
+mas "Microsoft Remote Desktop", id: 1295203466
+mas "Noizio", id: 928871589
+mas "Numbers", id: 409203825
+mas "Outline", id: 1356178125
+mas "Pages", id: 409201541
+mas "QuickBooks", id: 640830064
+mas "Quiet", id: 1441525727
+mas "Todoist", id: 585829637
+mas "Trello", id: 1278508951
+mas "Xcode", id: 497799835

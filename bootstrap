@@ -144,7 +144,7 @@ else
 	fancy_echo "Command Line Tools installed!"
 fi
 
-sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
+# sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
 
 # -------------------------------------------------------------------------
 # Homebrew
@@ -310,6 +310,11 @@ fancy_echo "Backup .zshrc"
 fancy_echo "Install Prezto"
 git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
 
+setopt EXTENDED_GLOB
+for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
+  ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
+done
+
 fancy_echo "Copying dotfiles"
 pushd "${PWD}/dotfiles" >&-
   for dotfile in *
@@ -320,7 +325,7 @@ popd >&-
 
 
 if [ -f "shoestrings" ]; then
-  fancy_echo "Running your customizations from graphite ..."
+  fancy_echo "Running your customizations from shoestrings ..."
   # shellcheck disable=SC1090
   . "./shoestrings"
 fi
