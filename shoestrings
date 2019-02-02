@@ -10,6 +10,12 @@ fancy_echo "Cleaning up old Homebrew content ..."
 brew cleanup 2> /dev/null
 
 # -------------------------------------------------------------------------
+# Gatekeeper, turn it off
+# -------------------------------------------------------------------------
+
+sudo spctl --master-disable
+
+# -------------------------------------------------------------------------
 # Apps
 # -------------------------------------------------------------------------
 fancy_echo "Install Homebrew formulae"
@@ -34,7 +40,6 @@ rbenv rehash
 # -------------------------------------------------------------------------
 fancy_echo "Get the old fonts, install to ~/library/fonts"
 
-mkdir ~/Library/Fonts
 cp -a /stuffs/fonts/. ~/Library/Fonts/
 
 # -------------------------------------------------------------------------
