@@ -1,4 +1,25 @@
-#!/bin/sh
+#!/bin/zsh
+
+# -----------------------------------------------------------------------------
+# NVM
+# -----------------------------------------------------------------------------
+fancy_echo "Install NVM in zsh"
+sudo chsh -s /usr/local/bin/zsh
+source ~/.zshrc
+
+if [ ! -d "~/.nvm" ]; then
+	fancy_echo "Installing NVM…"
+	curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+	fancy_echo "NVM installed!"
+	fancy_echo "Installing latest Node…"
+	nvm install node
+	nvm use node
+	nvm run node --version
+	nodev=$(node -v)
+	fancy_echo "Using Node $nodev!"
+else
+	fancy_echo "NVM/Node already installed. Skipping."
+fi
 
 # -------------------------------------------------------------------------
 # This installs packages, apps, etc that are essential. 
