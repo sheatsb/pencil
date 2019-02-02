@@ -8,7 +8,6 @@ fancy_echo "Moving on to the apps, gems, and pips..."
 
 fancy_echo "Cleaning up old Homebrew content ..."
 brew cleanup 2> /dev/null
-brew cask cleanup 2> /dev/null
 
 # -------------------------------------------------------------------------
 # Apps
