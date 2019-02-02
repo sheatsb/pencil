@@ -40,6 +40,9 @@ append_to_zshrc 'LUNCHY_DIR=$(dirname `gem which lunchy`)/../extras
     . $LUNCHY_DIR/lunchy-completion.zsh
   fi'
 
+# accept xcode license now -- comment if not installing it
+sudo xcodebuild -license accept
+
 # -------------------------------------------------------------------------
 # Fonts
 # -------------------------------------------------------------------------
