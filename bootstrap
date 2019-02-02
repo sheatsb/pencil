@@ -280,7 +280,7 @@ bundle config --global jobs $((number_of_cores - 1))
 # -----------------------------------------------------------------------------
 # NVM
 # -----------------------------------------------------------------------------
-if [ -x nvm ]; then
+if [ ! -d "~/.nvm" ]; then
 	fancy_echo "Installing NVM…"
 	curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
 	fancy_echo "NVM installed!"
@@ -297,7 +297,7 @@ fi
 # -------------------------------------------------------------------------
 # ZSH and Dotfiles
 # -------------------------------------------------------------------------
-fancy_echo "First switch to homebrew ZSH"
+fancy_echo "First switch to homebrew ZSH..."
 case "$SHELL" in
   */zsh)
     if [ "$(command -v zsh)" != '/usr/local/bin/zsh' ] ; then
@@ -315,6 +315,7 @@ fancy_echo "Backup .zshrc as it might exist now b/c we're going to add ours in j
 fancy_echo "Install Prezto"
 if [ -d "~/.zprezto" ]; then
   git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
+  fancy_echo "Prezto installed, please double check configs."
 else
   cd ~/.zprezto 
   git pull origin master
@@ -329,7 +330,7 @@ pushd "${PWD}/dotfiles" >&-
     ln -nsf "${PWD}/${dotfile}" "${HOME}/.${dotfile}"
   done
 popd >&-
-
+fancy_echo "...dotfiles copied."
 
 if [ -f "shoestrings" ]; then
   fancy_echo "Running your customizations from shoestrings ..."

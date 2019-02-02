@@ -6,13 +6,13 @@
 # -------------------------------------------------------------------------
 fancy_echo "Moving on to the apps, gems, and pips..."
 
-fancy_echo "Cleaning up old Homebrew content ..."
+fancy_echo "Cleaning up old Homebrew content..."
 brew cleanup 2> /dev/null
 
 # -------------------------------------------------------------------------
 # Gatekeeper, turn it off
 # -------------------------------------------------------------------------
-fancy_echo "Turning off Gatekeeper"
+fancy_echo "Turning off Gatekeeper..."
 sudo spctl --master-disable
 
 # -------------------------------------------------------------------------
@@ -22,29 +22,31 @@ fancy_echo "Install Homebrew formulae"
 brew bundle -v --file=stuffs/Brewfile
 fancy_echo "Formulae installed"
 
-fancy_echo "Install Mac App Store apps"
+fancy_echo "Install Mac App Store apps..."
 brew install mas
 brew bundle -v --file=stuffs/mas.txt
-fancy_echo "Mac App Store apps installed"
+fancy_echo "...Mac App Store apps installed"
+
+fancy_echo "Accept XCode license..."
+# accept xcode license now -- comment if not installing it
+sudo xcodebuild -license accept
 
 # -------------------------------------------------------------------------
 # Gems
 # -------------------------------------------------------------------------
-fancy_echo "Remove any gem locks"
+fancy_echo "Remove any gem locks..."
 rm -rf stuffs/Gemfile.lock
 
-fancy_echo "Installing gems"
+fancy_echo "Installing gems..."
 gem update --system
 bundle install --system --gemfile=stuffs/Gemfile
 rbenv rehash
+fancy_echo "...gems installed."
 
 # append_to_zshrc 'LUNCHY_DIR=$(dirname `gem which lunchy`)/../extras
 #   if [ -f $LUNCHY_DIR/lunchy-completion.zsh ]; then
 #     . $LUNCHY_DIR/lunchy-completion.zsh
 #   fi'
-
-# accept xcode license now -- comment if not installing it
-sudo xcodebuild -license accept
 
 # -------------------------------------------------------------------------
 # Fonts
@@ -58,10 +60,11 @@ cp -a stuffs/fonts/. ~/Library/Fonts/
 # -------------------------------------------------------------------------
 fancy_echo "Updating NPM and install packages"
 npm i -g npm
-npm -g install fkill vtop spoof  eslint babel-eslint eslint-config-standard eslint-config-prettier eslint-plugin-prettier  browser-sync fast-cli grunt gulp gulp-scss-lint javascripting jshint n parcel-bundler tachyons-cli postcss-cli speed-test splash-cli stacks-cli switch-php npm yo now tldr prettier
+npm -g install fkill vtop spoof  eslint babel-eslint flatted cross-spawn sprintf-js  browser-sync fast-cli grunt gulp gulp-scss-lint javascripting jshint n parcel-bundler tachyons-cli postcss-cli speed-test splash-cli stacks-cli switch-php npm yo now tldr prettier
 
 fancy_echo "Installing Python packages"
 sudo easy_install pip
+pip3 install -r stuffs/thepips.txt
 pip install -r stuffs/thepips.txt
 
 # -------------------------------------------------------------------------
@@ -78,9 +81,10 @@ cd ~/code
 valet park
 valet domain taco
 brew services restart --all
+fancy_echo "...Valet Plus installed"
 
 if [ -f ".grabs.local" ]; then
-  fancy_echo "Download apps from S3 *now*, these are time limited by default"
+  fancy_echo "Download apps from S3 *now*, these are time limited via URL signatures"
   # shellcheck disable=SC1090
   . "./grabs.local"
 fi
