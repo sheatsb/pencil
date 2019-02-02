@@ -309,7 +309,7 @@ case "$SHELL" in
     ;;
 esac
 
-fancy_echo "Backup .zshrc"
+fancy_echo "Backup .zshrc as it might exist now b/c we're going to add ours in just a second."
   mv ~/.zshrc  ~/.zshrc.backup
 
 fancy_echo "Install Prezto"
@@ -321,11 +321,6 @@ else
   cd ~/.pencil
   fancy_echo "Prezto already installed, but updated."
 fi
-
-setopt EXTENDED_GLOB
-for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
-  ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
-done
 
 fancy_echo "Copying dotfiles"
 pushd "${PWD}/dotfiles" >&-
