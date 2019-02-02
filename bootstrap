@@ -318,9 +318,6 @@ else
   fancy_echo "bash_it already installed, but updated."
 fi
 
-source ~/.bash_profile
-source ~/.zshrc
-
 fancy_echo "Copying dotfiles"
 pushd "${PWD}/dotfiles" >&-
   for dotfile in *
@@ -329,6 +326,9 @@ pushd "${PWD}/dotfiles" >&-
   done
 popd >&-
 fancy_echo "...dotfiles copied."
+
+fancy_echo "Source everything..."
+source ~/.bash_profile
 
 # -----------------------------------------------------------------------------
 # NVM
