@@ -123,7 +123,8 @@ export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_NO_INSECURE_REDIRECT=1
 eval "$(rbenv init - zsh --no-rehash)"
 export PATH="$HOME/.composer/vendor/bin:$HOME/.rbenv/bin:$PATH"
-export PATH="/usr/local/opt/python@2/libexec/bin:$PATH"
 export PHP_AUTOCONF=/usr/local/bin/autoconf
 export HOMEBREW_RUBY_PATH="$(which ruby)"
-export PATH="/usr/local/opt/node@10/bin:$PATH"
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
