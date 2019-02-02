@@ -142,11 +142,9 @@ cask "iina"
 cask "keka"
 cask "keybase"
 cask "knockknock"
-cask "krisp"
 cask "linkliar"
 cask "messenger"
 cask "microsoft-office"
-cask "oversight"
 cask "processing"
 cask "ransomwhere"
 cask "selfcontrol"
@@ -174,3 +172,4 @@ mas "Quiet", id: 1441525727
 mas "Todoist", id: 585829637
 mas "Trello", id: 1278508951
 mas "Xcode", id: 497799835
+cask "oversight"
