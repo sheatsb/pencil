@@ -286,7 +286,7 @@ if [ -x nvm ]; then
 	nodev=$(node -v)
 	fancy_echo "Using Node $nodev!"
 else
-	print_success_muted "NVM/Node already installed. Skipping."
+	fancy_echo "NVM/Node already installed. Skipping."
 fi
 
 # -------------------------------------------------------------------------
