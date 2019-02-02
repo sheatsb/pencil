@@ -54,6 +54,11 @@ append_to_zshrc() {
   fi
 }
 
+# test if specific formula is already installed
+brew_is_installed() {
+  brew list -1 | grep -Fqx "$1"
+}
+
 # shellcheck disable=SC2154
 trap 'ret=$?; test $ret -ne 0 && printf "failed\n\n" >&2; exit $ret' EXIT
 
@@ -308,7 +313,14 @@ fancy_echo "Backup .zshrc"
   mv ~/.zshrc  ~/.zshrc.backup
 
 fancy_echo "Install Prezto"
-git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
+if [ -d "~/.zprezto" ]; then
+  git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
+else
+  cd ~/.zprezto 
+  git pull origin master
+  cd ~/.pencil
+  fancy_echo "Prezto already installed, but updated."
+fi
 
 setopt EXTENDED_GLOB
 for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
