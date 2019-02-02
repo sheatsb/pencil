@@ -66,8 +66,8 @@ fancy_echo "Installing Python packages"
 sudo easy_install pip
 pip3 install -r stuffs/thepips.txt
 pip install -r stuffs/thepips.txt
-pip install --upgrade pip
-pip3 install --upgrade pip
+sudo pip install --upgrade pip
+sudo pip3 install --upgrade pip
 
 # -------------------------------------------------------------------------
 # Set up local PHP dev environment
@@ -78,7 +78,7 @@ composer self-update
 composer global require weprovide/valet-plus
 valet fix 
 valet install
-wp package install git@github.com:aaemnnosttv/wp-cli-valet-command.git
+php -d memory_limit=756M "$(which wp)" package install git@github.com:aaemnnosttv/wp-cli-valet-command.git
 cd ~/code
 valet park
 valet domain taco
@@ -90,5 +90,3 @@ if [ -f ".grabs.local" ]; then
   # shellcheck disable=SC1090
   . "./grabs.local"
 fi
-
-fancy_echo "All apps installed!"
