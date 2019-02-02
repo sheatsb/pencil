@@ -38,10 +38,10 @@ gem update --system
 bundle install --system --gemfile=stuffs/Gemfile
 rbenv rehash
 
-append_to_zshrc 'LUNCHY_DIR=$(dirname `gem which lunchy`)/../extras
-  if [ -f $LUNCHY_DIR/lunchy-completion.zsh ]; then
-    . $LUNCHY_DIR/lunchy-completion.zsh
-  fi'
+# append_to_zshrc 'LUNCHY_DIR=$(dirname `gem which lunchy`)/../extras
+#   if [ -f $LUNCHY_DIR/lunchy-completion.zsh ]; then
+#     . $LUNCHY_DIR/lunchy-completion.zsh
+#   fi'
 
 # accept xcode license now -- comment if not installing it
 sudo xcodebuild -license accept
@@ -51,7 +51,7 @@ sudo xcodebuild -license accept
 # -------------------------------------------------------------------------
 fancy_echo "Get the old fonts, install to ~/library/fonts"
 
-cp -a /stuffs/fonts/. ~/Library/Fonts/
+cp -a stuffs/fonts/. ~/Library/Fonts/
 
 # -------------------------------------------------------------------------
 # NPM
