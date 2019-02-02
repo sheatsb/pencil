@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ######################################################################################
 ## Run this one first. It bootstraps the system with the basics for everything else,

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 fancy_echo "Download apps from the S3 repo"
 cd ~/Downloads
