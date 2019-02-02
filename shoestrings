@@ -13,12 +13,12 @@ brew cleanup 2> /dev/null
 # Apps
 # -------------------------------------------------------------------------
 fancy_echo "Install Homebrew formulae"
-brew bundle --file=stuffs/Brewfile
+brew bundle -v --file=stuffs/Brewfile
 fancy_echo "Formulae installed"
 
 fancy_echo "Install Mac App Store apps"
 brew install mas
-brew bundle --file=stuffs/mas.txt
+brew bundle -v --file=stuffs/mas.txt
 fancy_echo "Mac App Store apps installed"
 
 # -------------------------------------------------------------------------
