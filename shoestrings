@@ -52,7 +52,7 @@ cp -a /stuffs/fonts/. ~/Library/Fonts/
 # -------------------------------------------------------------------------
 fancy_echo "Updating NPM and install packages"
 npm i -g npm
-npm -g install eslint browser-sync fast-cli grunt gulp gulp-scss-lint javascripting jshint n parcel-bundler webpack tachyons-cli postcss-cli speed-test splash-cli stacks-cli switch-php npm yo
+npm -g install fkill vtop spoof  eslint babel-eslint eslint-config-standard eslint-config-prettier eslint-plugin-prettier  browser-sync fast-cli grunt gulp gulp-scss-lint javascripting jshint n parcel-bundler tachyons-cli postcss-cli speed-test splash-cli stacks-cli switch-php npm yo now tldr prettier
 
 fancy_echo "Installing Python packages"
 sudo easy_install pip
