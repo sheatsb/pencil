@@ -296,7 +296,7 @@ fancy_echo "Backup .zshrc as it might exist now b/c we're going to add ours in j
   mv ~/.zshrc  ~/.zshrc.backup
 
 fancy_echo "Install Prezto"
-if [ ! -d "~/.zprezto" ]; then
+if [ -d "~/.zprezto" ]; then
   git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
   fancy_echo "Prezto installed, please double check configs."
 else
@@ -307,7 +307,7 @@ else
 fi
 
 fancy_echo "Install bash_it"
-if [ ! -d "~/.bash_it" ]; then
+if [ -d "~/.bash_it" ]; then
   git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it
   ~/.bash_it/install.sh --no-modify-config
   fancy_echo "bash_it installed, please double check configs."
