@@ -165,7 +165,7 @@ alias ytm="youtube-dl --extract-audio --audio-format mp3 --prefer-ffmpeg"
 export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_NO_INSECURE_REDIRECT=1
 eval "$(rbenv init - zsh --no-rehash)"
-export PATH="$HOME/.composer/vendor/bin:$HOME/.rbenv/bin:$PATH"
+export PATH="~/.composer/vendor/bin:$HOME/.rbenv/bin:$PATH"
 export PHP_AUTOCONF=/usr/local/bin/autoconf
 export HOMEBREW_RUBY_PATH="$(which ruby)"
 export NVM_DIR="$HOME/.nvm"
