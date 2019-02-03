@@ -75,10 +75,10 @@ sudo pip3 install --upgrade pip
 fancy_echo "Set up Valet Plus"
 if [ -d "~/code" ] 
 then
-    echo "Code directory exists, moving on." 
-else
     mkdir ~/code
-    echo "Created code directory quietly."
+    echo "Created code directory quietly." 
+else
+     echo "Code directory exists, moving on."
 fi
 
 composer self-update
