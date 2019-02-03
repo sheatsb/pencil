@@ -73,7 +73,14 @@ sudo pip3 install --upgrade pip
 # Set up local PHP dev environment
 # -------------------------------------------------------------------------
 fancy_echo "Set up Valet Plus"
-mkdir ~/code
+if [ -d "~/code" ] 
+then
+    echo "Code directory exists, moving on." 
+else
+    mkdir ~/code
+    echo "Created code directory quietly."
+fi
+
 composer self-update
 composer global require weprovide/valet-plus
 valet fix 
