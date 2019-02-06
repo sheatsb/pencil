@@ -1,7 +1,7 @@
 module.exports = {
   config: {
     // default font size in pixels for all tabs
-    fontSize: 14,
+    fontSize: 15,
 
     // font family with optional fallbacks
     fontFamily: '"Input Mono Medium", Menlo, "DejaVu Sans Mono", Consolas, "Lucida Console", monospace',
@@ -64,7 +64,7 @@ module.exports = {
 
     // the shell to run when spawning a new session (i.e. /usr/local/bin/fish)
     // if left empty, your system's login shell will be used by default
-    shell: '',
+    shell: '/usr/local/bin/bash',
 
     // for setting shell arguments (i.e. for using interactive shellArgs: ['-i'])
     // by default ['--login'] will be used
@@ -98,7 +98,7 @@ module.exports = {
     "hyper-blink",
     "hyper-ayu-mirage",
     "hyperterm-tabs",
-    "hyper-quit"
+    "hyper-quit",
   ],
 
   // in development, you can create a directory under

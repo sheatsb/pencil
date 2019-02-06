@@ -149,3 +149,4 @@ if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 
 if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
 eval "$(rbenv init - --no-rehash)"
+export PATH="/usr/local/sbin:$PATH"

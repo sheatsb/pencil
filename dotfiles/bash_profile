@@ -6,7 +6,7 @@ export BASH_IT="/Users/sheatsb/.bash_it"
 # Lock and Load a custom theme file.
 # Leave empty to disable theming.
 # location /.bash_it/themes/
-export BASH_IT_THEME='bobby'
+export BASH_IT_THEME='sexy'
 
 # (Advanced): Change this to the name of your remote repo if you
 # cloned bash-it with a remote other than origin such as `bash-it`.
@@ -148,8 +148,8 @@ alias gcam="git commit -am"
 alias gbb="git branch -b"
 
 # Use shortcut for editing this file
-alias zconf="vscode ~/.zshrc"
-alias sourceup="source ~/.zshrc"
+alias bconf="vscode ~/.bash_profile"
+alias sourceup="source ~/.bash_profile"
 
 # Update package managers easily
 alias upwards="brew update && brew upgrade && brew cleanup && npm -g up && gem update && gem update --system && gem cleanup"
@@ -164,7 +164,6 @@ alias ytm="youtube-dl --extract-audio --audio-format mp3 --prefer-ffmpeg"
 # Set PATHs and Homebrew
 export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_NO_INSECURE_REDIRECT=1
-eval "$(rbenv init - zsh --no-rehash)"
 export PATH="~/.composer/vendor/bin:$HOME/.rbenv/bin:$PATH"
 export PHP_AUTOCONF=/usr/local/bin/autoconf
 export HOMEBREW_RUBY_PATH="$(which ruby)"
@@ -178,3 +177,4 @@ if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 
 if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
 eval "$(rbenv init - --no-rehash)"
+export PATH="/usr/local/sbin:$PATH"
