@@ -62,10 +62,10 @@ fi
 # Editors
 # Tells your shell that when a program requires various editors, use sublime.
 # The -w flag tells your shell to wait until sublime exits
-export VISUAL="vscode -w"
-export SVN_EDITOR="vscode -w"
-export GIT_EDITOR="vscode -w"
-export EDITOR="vscode -w"
+export VISUAL="code -w"
+export SVN_EDITOR="code -w"
+export GIT_EDITOR="code -w"
+export EDITOR="code -w"
 
 # Helpful Functions
 # =====================
@@ -127,6 +127,9 @@ mcd () {
 
 # Aliases
 # =====================
+
+# Get the weather
+alias weather="curl wttr.in" 
 
 # Exit Terminal 
 alias byebye="killall Terminal"
